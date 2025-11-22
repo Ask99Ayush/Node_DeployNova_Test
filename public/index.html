@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node Test DeployNova | Interactive</title>
+
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div class="floating-elements">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>Node Test DeployNova 🚀</h1>
+            <p class="subtitle">Advanced testing environment with real-time monitoring and interactive controls</p>
+        </header>
+
+        <div class="dashboard">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: rgba(96, 165, 250, 0.2); color: #60a5fa;">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <h2 class="card-title">System Status</h2>
+                </div>
+                <p>All systems operational with optimal performance metrics.</p>
+                <div class="progress-bar">
+                    <div class="progress" style="width: 85%; background: linear-gradient(90deg, #60a5fa, #3b82f6);"></div>
+                </div>
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-value">98%</div>
+                        <div class="stat-label">Uptime</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">2.4ms</div>
+                        <div class="stat-label">Response</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">42°C</div>
+                        <div class="stat-label">Temp</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: rgba(167, 139, 250, 0.2); color: #a78bfa;">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h2 class="card-title">Performance</h2>
+                </div>
+                <p>Current application performance metrics and analytics.</p>
+                <div class="progress-bar">
+                    <div class="progress" style="width: 72%; background: linear-gradient(90deg, #a78bfa, #8b5cf6);"></div>
+                </div>
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-value">1.2K</div>
+                        <div class="stat-label">Requests</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">64%</div>
+                        <div class="stat-label">CPU</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">3.2GB</div>
+                        <div class="stat-label">Memory</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: rgba(244, 114, 182, 0.2); color: #f472b6;">
+                        <i class="fas fa-bug"></i>
+                    </div>
+                    <h2 class="card-title">Testing</h2>
+                </div>
+                <p>Automated testing suite execution and results.</p>
+                <div class="progress-bar">
+                    <div class="progress" style="width: 94%; background: linear-gradient(90deg, #f472b6, #ec4899);"></div>
+                </div>
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-value">256</div>
+                        <div class="stat-label">Tests</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">98%</div>
+                        <div class="stat-label">Passed</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">5</div>
+                        <div class="stat-label">Failed</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-primary" id="runTests">
+                <i class="fas fa-play"></i> Run Tests
+            </button>
+            <button class="btn btn-secondary" id="viewLogs">
+                <i class="fas fa-file-alt"></i> View Logs
+            </button>
+            <button class="btn btn-secondary" id="settings">
+                <i class="fas fa-cog"></i> Settings
+            </button>
+        </div>
+    </div>
+
+    <div class="notification" id="notification">
+        <strong>System Alert:</strong> Tests initialized successfully!
+    </div>
+
+    <!-- PARTICLES JS CDN -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+    <!-- MAIN JS -->
+    <script src="script.js"></script>
+</body>
+</html>
