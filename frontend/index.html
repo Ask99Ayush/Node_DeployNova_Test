@@ -17,11 +17,11 @@
   <div id="list"></div>
 
 <script>
-const API = "http://localhost:5000/api/employees";
+const API = "http://13.127.82.32:5000/api/employees"; //EC2 IP PASTE
 
 async function load() {
   const data = await fetch(API).then(r => r.json());
-  
+
 document.getElementById("list").innerHTML = data.map(emp => `
   <div class="emp-row">
     <span class="emp-text">${emp.name} - ${emp.role}</span>
