@@ -1,32 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Employee Management</title>
-    <link rel="stylesheet" href="style.css">
+  <title>Employee Manager</title>
+  <style>
+    body { 
+      font-family: Arial; 
+      max-width: 700px; 
+      margin: 30px auto; 
+      background: #f1f1f1;
+      padding: 20px;
+    }
+    input, button { padding: 8px; margin: 5px; }
+    .item { 
+      background: white;
+      padding: 12px; 
+      border: 1px solid #ccc; 
+      margin-top: 10px; 
+      border-radius: 5px;
+    }
+    .actions button { margin-right: 10px; margin-top: 10px; }
+  </style>
 </head>
 <body>
 
-<h2>Employee Management System</h2>
+<h2>➕ Add Employee</h2>
+<input id="name" placeholder="Name">
+<input id="email" placeholder="Email">
+<input id="role" placeholder="Role">
+<button onclick="addEmployee()">Add</button>
 
-<div class="form">
-    <input type="text" id="name" placeholder="Employee Name">
-    <input type="text" id="role" placeholder="Role">
-    <input type="number" id="salary" placeholder="Salary">
-    <button id="submitBtn" onclick="addEmployee()">Add Employee</button>
-</div>
+<h2>📋 Employee List</h2>
+<button onclick="load()">Show List</button>
 
-<h3>Employee List</h3>
-<table id="empTable">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Role</th>
-            <th>Salary</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody></tbody>
-</table>
+<div id="list"></div>
 
 <script src="script.js"></script>
 </body>

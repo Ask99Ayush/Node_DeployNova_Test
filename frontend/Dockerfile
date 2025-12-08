@@ -1,8 +1,11 @@
-FROM nginx:stable-alpine
+FROM node:20-alpine
 
-# remove default nginx page
-RUN rm -rf /usr/share/nginx/html/*
+WORKDIR /app
 
-COPY . /usr/share/nginx/html
+COPY package.json .
+RUN npm install
 
-EXPOSE 80
+COPY . .
+
+EXPOSE 3000
+CMD ["npm", "start"]
