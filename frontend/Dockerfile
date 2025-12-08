@@ -1,6 +1,8 @@
-FROM nginx:alpine
+FROM nginx:stable-alpine
 
-# Copy frontend files to nginx html directory
+# remove default nginx page
+RUN rm -rf /usr/share/nginx/html/*
+
 COPY . /usr/share/nginx/html
 
 EXPOSE 80
