@@ -1,4 +1,4 @@
-const API = "http://localhost:5000/api/employees";
+const API = "http://employee-backend:5000/api/employees";
 
 async function load() {
   const res = await fetch(API);
