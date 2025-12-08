@@ -1,13 +1,6 @@
-# Frontend Dockerfile
-FROM node:18
+FROM nginx:alpine
 
-WORKDIR /app
+# Copy frontend files to nginx html directory
+COPY . /usr/share/nginx/html
 
-COPY . .
-
-# Install simple static file server
-RUN npm install -g http-server
-
-EXPOSE 3000
-
-CMD ["http-server", ".", "-p", "3000"]
+EXPOSE 80
