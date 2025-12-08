@@ -16,14 +16,14 @@ mongoose.connect(process.env.MONGO_URL)
 
 // Employee Schema
 const employeeSchema = new mongoose.Schema({
-    name: String,
-    role: String,
-    salary: Number
+  name: String,
+  role: String,
+  salary: Number
 });
 
 const Employee = mongoose.model("Employee", employeeSchema);
 
-// Routes -------------------------------------
+// ---------------------- ROUTES -------------------------
 
 // Get all employees
 app.get("/api/employees", async (req, res) => {
@@ -43,7 +43,21 @@ app.delete("/api/employees/:id", async (req, res) => {
   res.json({ message: "Employee Deleted" });
 });
 
-// Start Server
+// ✅ UPDATE employee (PUT Route)
+app.put("/api/employees/:id", async (req, res) => {
+  const { name, role, salary } = req.body;
+
+  const updated = await Employee.findByIdAndUpdate(
+    req.params.id,
+    { name, role, salary },
+    { new: true } // return updated doc
+  );
+
+  res.json(updated);
+});
+
+// -------------------------------------------------------
+
 app.listen(process.env.PORT, () => {
   console.log("Backend running on port", process.env.PORT);
 });
