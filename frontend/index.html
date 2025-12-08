@@ -1,18 +1,87 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>CRUD Test App</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <title>Todo CRUD App</title>
+  <style>
+    body { font-family: Arial; background:#f7f7f7; padding:40px; }
+    .box { width:400px; background:#fff; padding:20px; margin:auto; border-radius:8px;
+           box-shadow:0 0 10px rgba(0,0,0,0.1); }
+    input { width:100%; padding:10px; }
+    button { padding:10px 15px; margin-top:10px; cursor:pointer; }
+    .todo { background:#eee; padding:10px; margin-top:10px;
+            display:flex; justify-content:space-between; border-radius:5px; }
+    .done { text-decoration:line-through; color:gray; }
+  </style>
 </head>
+
 <body>
-  <h1>Items CRUD</h1>
-  <input id="title" placeholder="Title"/>
-  <textarea id="description" placeholder="Description"></textarea>
-  <button id="createBtn">Create</button>
-  <button id="updateBtn" disabled>Update</button>
-  <button id="clearBtn">Clear</button>
-  <div id="items"></div>
-  <script src="app.js"></script>
+  <div class="box">
+    <h2>Todo CRUD App</h2>
+
+    <input id="todoInput" placeholder="Enter todo..." />
+    <button onclick="addTodo()">Add Todo</button>
+
+    <div id="todoList"></div>
+  </div>
+
+<script>
+const API = "http://localhost:5000/todos";
+
+// Load all todos
+async function loadTodos() {
+  const res = await fetch(API);
+  const todos = await res.json();
+
+  let html = "";
+  todos.forEach(todo => {
+    html += `
+      <div class="todo">
+        <span class="${todo.completed ? 'done' : ''}">
+          ${todo.title}
+        </span>
+        <div>
+          <button onclick="toggleDone('${todo._id}', ${!todo.completed})">
+            ✓
+          </button>
+          <button onclick="deleteTodo('${todo._id}')">X</button>
+        </div>
+      </div>`;
+  });
+
+  document.getElementById("todoList").innerHTML = html;
+}
+
+async function addTodo() {
+  const title = document.getElementById("todoInput").value;
+  if (!title) return;
+
+  await fetch(API, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ title })
+  });
+
+  document.getElementById("todoInput").value = "";
+  loadTodos();
+}
+
+async function toggleDone(id, status) {
+  await fetch(`${API}/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ completed: status })
+  });
+  loadTodos();
+}
+
+async function deleteTodo(id) {
+  await fetch(`${API}/${id}`, { method: "DELETE" });
+  loadTodos();
+}
+
+// Load on start
+loadTodos();
+</script>
 </body>
 </html>
