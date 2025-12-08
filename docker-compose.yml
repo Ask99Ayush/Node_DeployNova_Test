@@ -1,46 +1,43 @@
-version: "3.9"
+version: "3.8"
 
 services:
   mongo:
-    image: mongo:latest
-    container_name: mongo-db
-    restart: always
-    ports:
-      - "27017:27017"
+    image: mongo:6.0
+    container_name: ems-mongo
+    restart: unless-stopped
     volumes:
-      - mongo-data:/data/db
-    healthcheck:
-      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      - mongo_data:/data/db
+    networks:
+      - ems-net
 
   backend:
-    build: ./backend
-    container_name: employee-backend
-    restart: always
+    build:
+      context: ./backend
+    container_name: ems-backend
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/ems
+      - PORT=5000
+    depends_on:
+      - mongo
+    networks:
+      - ems-net
     ports:
       - "5000:5000"
-    depends_on:
-      mongo:
-        condition: service_healthy
-    environment:
-      - MONGO_URL=mongodb://mongo-db:27017/employees
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000/api/employees"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
   frontend:
-    build: ./frontend
-    container_name: employee-frontend
-    restart: always
+    build:
+      context: ./frontend
+    container_name: ems-frontend
+    depends_on:
+      - backend
+    networks:
+      - ems-net
     ports:
       - "3000:3000"
-    depends_on:
-      backend:
-        condition: service_healthy
 
 volumes:
-  mongo-data:
+  mongo_data:
+
+networks:
+  ems-net:
+    driver: bridge

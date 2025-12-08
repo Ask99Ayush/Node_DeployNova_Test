@@ -1,39 +1,70 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Employee Manager</title>
-  <style>
-    body { 
-      font-family: Arial; 
-      max-width: 700px; 
-      margin: 30px auto; 
-      background: #f1f1f1;
-      padding: 20px;
-    }
-    input, button { padding: 8px; margin: 5px; }
-    .item { 
-      background: white;
-      padding: 12px; 
-      border: 1px solid #ccc; 
-      margin-top: 10px; 
-      border-radius: 5px;
-    }
-    .actions button { margin-right: 10px; margin-top: 10px; }
-  </style>
+  <title>Employee Management</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <h2>Employee Management System</h2>
 
-<h2>➕ Add Employee</h2>
-<input id="name" placeholder="Name">
-<input id="email" placeholder="Email">
-<input id="role" placeholder="Role">
-<button onclick="addEmployee()">Add</button>
+  <div>
+    <input id="name" placeholder="Name">
+    <input id="role" placeholder="Role">
+    <button onclick="addEmployee()">Add</button>
+  </div>
 
-<h2>📋 Employee List</h2>
-<button onclick="load()">Show List</button>
+  <h3>Employee List</h3>
+  <div id="list"></div>
 
-<div id="list"></div>
+<script>
+const API = "http://localhost:5000/api/employees";
 
-<script src="script.js"></script>
+async function load() {
+  const data = await fetch(API).then(r => r.json());
+  
+document.getElementById("list").innerHTML = data.map(emp => `
+  <div class="emp-row">
+    <span class="emp-text">${emp.name} - ${emp.role}</span>
+    <div>
+      <button class="action-btn" onclick="update('${emp._id}')">Update</button>
+      <button class="delete-btn" onclick="del('${emp._id}')">Delete</button>
+    </div>
+  </div>
+`).join("");
+
+}
+
+async function addEmployee() {
+  await fetch(API, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      name: document.getElementById("name").value,
+      role: document.getElementById("role").value
+    })
+  });
+  load();
+}
+
+async function del(id) {
+  await fetch(API + "/" + id, { method: "DELETE" });
+  load();
+}
+
+async function update(id) {
+  const name = prompt("Enter new name:");
+  const role = prompt("Enter new role:");
+
+  await fetch(API + "/" + id, {
+    method: "PUT",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ name, role })
+  });
+
+  load();
+}
+
+load();
+</script>
 </body>
 </html>

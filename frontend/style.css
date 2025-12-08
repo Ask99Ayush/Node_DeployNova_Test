@@ -1,0 +1,84 @@
+/* ---------- GLOBAL DARK THEME ---------- */
+body {
+  font-family: Arial, sans-serif;
+  background: #0d1117;
+  color: #e6edf3;
+  margin: 0;
+  padding: 20px;
+}
+
+/* Title */
+h2, h3 {
+  color: #58a6ff;
+  text-align: center;
+}
+
+/* Input Section */
+input {
+  background: #161b22;
+  border: 1px solid #30363d;
+  padding: 10px;
+  margin: 5px;
+  color: #e6edf3;
+  border-radius: 8px;
+  width: 200px;
+}
+
+button {
+  background: #238636;
+  border: none;
+  padding: 10px 20px;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-left: 5px;
+  transition: 0.2s;
+}
+
+button:hover {
+  background: #2ea043;
+}
+
+/* Employee List Container */
+#list {
+  margin-top: 30px;
+  padding: 20px;
+  background: #161b22;
+  border-radius: 10px;
+  border: 1px solid #30363d;
+}
+
+/* Each Employee Row */
+.emp-row {
+  padding: 15px;
+  margin-bottom: 10px;
+  background: #0d1117;
+  border-radius: 8px;
+  border: 1px solid #30363d;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.emp-text {
+  color: #e6edf3;
+  font-size: 16px;
+}
+
+/* Action Buttons */
+.action-btn {
+  background: #6e40c9;
+  margin-left: 5px;
+}
+
+.action-btn:hover {
+  background: #7849d6;
+}
+
+.delete-btn {
+  background: #d63b3b;
+}
+
+.delete-btn:hover {
+  background: #ec4c4c;
+}
