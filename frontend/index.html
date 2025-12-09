@@ -16,138 +16,68 @@
   <h3>Employee List</h3>
   <div id="list"></div>
 
-  <script>
-// -------------------------------------------------------
-// 1) Load API URL from .env file dynamically
-// -------------------------------------------------------
-async function loadEnv() {
-  try {
-    const res = await fetch(".env");
-    const text = await res.text();
+  <!-- Load API URL config -->
+  <script src="config.js"></script>
 
-    const env = {};
-    text.split("\n").forEach(line => {
-      const [key, value] = line.split("=");
-      if (key) env[key.trim()] = value.trim();
+  <script>
+  // -------------------------------------------------------
+  // Load API URL from config.js
+  // -------------------------------------------------------
+  let API = window.APP_CONFIG.API_URL;
+  console.log("Using API:", API);
+
+  // -------------------------------------------------------
+  // CRUD Functions
+  // -------------------------------------------------------
+
+  async function load() {
+    const data = await fetch(API).then(r => r.json());
+
+    document.getElementById("list").innerHTML = data.map(emp => `
+      <div class="emp-row">
+        <span class="emp-text">${emp.name} - ${emp.role}</span>
+        <div>
+          <button class="action-btn" onclick="update('${emp._id}')">Update</button>
+          <button class="delete-btn" onclick="del('${emp._id}')">Delete</button>
+        </div>
+      </div>
+    `).join("");
+  }
+
+  async function addEmployee() {
+    await fetch(API, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        name: document.getElementById("name").value,
+        role: document.getElementById("role").value
+      })
+    });
+    load();
+  }
+
+  async function del(id) {
+    await fetch(API + "/" + id, { method: "DELETE" });
+    load();
+  }
+
+  async function update(id) {
+    const name = prompt("Enter new name:");
+    const role = prompt("Enter new role:");
+
+    await fetch(API + "/" + id, {
+      method: "PUT",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ name, role })
     });
 
-    return env.API_URL;
-  } catch (err) {
-    console.error("Failed to load .env:", err);
-    return "";  
+    load();
   }
-}
 
-let API = ""; // dynamically filled
-
-// -------------------------------------------------------
-// 2) CRUD Functions
-// -------------------------------------------------------
-async function load() {
-  const data = await fetch(API).then(r => r.json());
-
-  document.getElementById("list").innerHTML = data.map(emp => `
-    <div class="emp-row">
-      <span class="emp-text">${emp.name} - ${emp.role}</span>
-      <div>
-        <button class="action-btn" onclick="update('${emp._id}')">Update</button>
-        <button class="delete-btn" onclick="del('${emp._id}')">Delete</button>
-      </div>
-    </div>
-  `).join("");
-}
-
-async function addEmployee() {
-  await fetch(API, {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({
-      name: document.getElementById("name").value,
-      role: document.getElementById("role").value
-    })
-  });
+  // -------------------------------------------------------
+  // Initial load
+  // -------------------------------------------------------
   load();
-}
-
-async function del(id) {
-  await fetch(API + "/" + id, { method: "DELETE" });
-  load();
-}
-
-async function update(id) {
-  const name = prompt("Enter new name:");
-  const role = prompt("Enter new role:");
-
-  await fetch(API + "/" + id, {
-    method: "PUT",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({ name, role })
-  });
-
-  load();
-}
-
-// -------------------------------------------------------
-// 3) Initialize
-// -------------------------------------------------------
-(async () => {
-  API = await loadEnv(); // load dynamic IP from .env
-  console.log("Loaded API:", API);
-  await load();
-})();
-</script>
-
-<!-- <script>
-// const API = "http://13.127.82.32:5000/api/employees"; //EC2 IP PASTE
-const API = import.meta.env.VITE_API_URL;
-
-
-async function load() {
-  const data = await fetch(API).then(r => r.json());
-
-document.getElementById("list").innerHTML = data.map(emp => `
-  <div class="emp-row">
-    <span class="emp-text">${emp.name} - ${emp.role}</span>
-    <div>
-      <button class="action-btn" onclick="update('${emp._id}')">Update</button>
-      <button class="delete-btn" onclick="del('${emp._id}')">Delete</button>
-    </div>
-  </div>
-`).join("");
-
-}
-
-async function addEmployee() {
-  await fetch(API, {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({
-      name: document.getElementById("name").value,
-      role: document.getElementById("role").value
-    })
-  });
-  load();
-}
-
-async function del(id) {
-  await fetch(API + "/" + id, { method: "DELETE" });
-  load();
-}
-
-async function update(id) {
-  const name = prompt("Enter new name:");
-  const role = prompt("Enter new role:");
-
-  await fetch(API + "/" + id, {
-    method: "PUT",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({ name, role })
-  });
-
-  load();
-}
-
-load();
-</script> -->
+  </script>
 </body>
 </html>
