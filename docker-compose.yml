@@ -1,17 +1,23 @@
-version: "3.8"
+version: "3.9"
 
 services:
+  mongo:
+    image: mongo
+    container_name: ems-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
   backend:
     build: ./backend
     container_name: ems-backend
-    environment:
-      - MONGO_URL=mongodb://mongo:27017/employees
     ports:
       - "5000:5000"
     depends_on:
       - mongo
-    networks:
-      - app-net
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/employees
 
   frontend:
     build: ./frontend
@@ -20,23 +26,6 @@ services:
       - "3000:3000"
     depends_on:
       - backend
-    networks:
-      - app-net
-    volumes:
-      - ./frontend/public/config.js:/app/public/config.js
-
-  mongo:
-    image: mongo:latest
-    container_name: ems-mongo
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo_data:/data/db
-    networks:
-      - app-net
-
-networks:
-  app-net:
 
 volumes:
   mongo_data:
