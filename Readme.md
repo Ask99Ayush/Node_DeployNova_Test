@@ -69,3 +69,29 @@ exit
 These commands work only inside the MongoDB Docker container.
 
 Your database name may be different depending on your backend .env or MONGO_URI.
+
+
+
+
+
+⭐ SHORT SUMMARY: Connecting Frontend & Backend on EC2 (Docker)
+
+You deploy frontend, backend, and MongoDB as separate Docker containers on the same EC2 instance.
+
+Backend listens on port 5000, frontend on port 3000, both mapped to EC2's public IP.
+
+Browser cannot access Docker container names, so you use public EC2 IP to call backend.
+
+To avoid hardcoding the IP, you use this in config.js:
+
+window.APP_CONFIG = {
+    API_URL: `http://${window.location.hostname}:5000/api/employees`
+};
+
+
+The frontend (running at port 3000) automatically detects the EC2 IP using window.location.hostname and sends requests to:
+
+http://<EC2_PUBLIC_IP>:5000/api/employees
+
+
+All containers communicate through Docker internally (backend ↔ mongo), while frontend communicates through browser using EC2 public IP.
